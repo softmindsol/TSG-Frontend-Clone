@@ -56,6 +56,24 @@ const TodaysFocus = () => {
   console.log("🚀 ~ TodaysFocus ~ events:", events);
   console.log("🚀 ~ TodaysFocus ~ clientsArray:", clientsArray);
 
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      console.log("🚀 ~ deleteEvent ~ eventId:", eventId);
+
+      // Wait for deleteEvent to finish first
+      await dispatch(deleteEvent(eventId)).unwrap();
+
+      // Then refresh today's events
+      await dispatch(getTodayEvents()).unwrap();
+
+      console.log(
+        "✅ Event deleted and today's events refreshed successfully."
+      );
+    } catch (error) {
+      console.error("❌ Error deleting event:", error);
+    }
+  };
+
   // Icon color maps
   const iconMap = {
     meeting: <FiCalendar className="text-green-600 w-4 h-4" />,
@@ -116,7 +134,8 @@ const TodaysFocus = () => {
                     iconBg={
                       bgMap[event.entryType?.toLowerCase()] || bgMap.other
                     }
-                    onDelete={() => dispatch(deleteEvent(event._id))}
+                    // onDelete={() => dispatch(deleteEvent(event._id))}
+                    onDelete={() => handleDeleteEvent(event._id)}
                     onToggleComplete={() =>
                       dispatch(
                         event.status === "completed"
@@ -157,17 +176,23 @@ const TodaysFocus = () => {
                 No clients found.
               </p>
             ) : (
-              clientsArray.map((client) => (
-                <ClientProgress
-                  key={client._id || client.clientName}
-                  avatar={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                    client.clientName || "Client"
-                  )}&background=random`}
-                  name={client.clientName}
-                  status={client.amlStatus || "Active"}
-                  progress={client?.averageDealPercentage}
-                />
-              ))
+              clientsArray
+                ?.filter((c) => typeof c.averageDealPercentage === "number") // only valid ones
+                ?.sort(
+                  (a, b) => b.averageDealPercentage - a.averageDealPercentage
+                ) // highest first
+                ?.slice(0, 4) // only top 5
+                ?.map((client) => (
+                  <ClientProgress
+                    key={client._id || client.clientName}
+                    avatar={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      client.clientName || "Client"
+                    )}&background=random`}
+                    name={client.clientName}
+                    status={client.amlStatus || "Active"}
+                    progress={client?.averageDealPercentage || 0}
+                  />
+                ))
             )}
           </div>
         </div>

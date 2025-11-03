@@ -141,6 +141,7 @@ const Journal = ({ clientId }) => {
             className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
             defaultValue="General Notes" // optional default value
           >
+            <option value="">Select Status</option>
             <option value="Client Meeting">Client Meeting</option>
             <option value="General Notes">General Notes</option>
             <option value="Phone Call">Phone Call</option>

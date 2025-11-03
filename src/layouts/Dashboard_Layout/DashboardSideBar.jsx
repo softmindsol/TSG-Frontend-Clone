@@ -23,8 +23,10 @@ const DashboardSidebar = ({
 }) => {
   const location = useLocation();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-const { data, isLoading, isSuccess, errorMessage } = useSelector((state) => state.agent.CurrentAgent);
-console.log("🚀 ~ DashboardSidebar ~ data:", data)
+  const { data, isLoading, isSuccess, errorMessage } = useSelector(
+    (state) => state.agent.CurrentAgent
+  );
+  console.log("🚀 ~ DashboardSidebar ~ data:", data);
 
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
@@ -99,6 +101,10 @@ console.log("🚀 ~ DashboardSidebar ~ data:", data)
     },
   ];
 
+  const handleLogout = async () => {
+    await dispatch(logoutAgent());
+    navigate(PATH.login, { replace: true });
+  };
   return (
     <div
       className={`bg-white rounded-[10px] shadow-[0px_10px_60px_rgba(8,23,34,0.12)] flex flex-col transition-all duration-300 
@@ -241,10 +247,10 @@ console.log("🚀 ~ DashboardSidebar ~ data:", data)
                     />
                     <div>
                       <div className="font-poppins text-xs md:text-sm font-medium text-dark">
-                       {data?.data?.firstName}
+                        {data?.data?.firstName}
                       </div>
                       <div className="font-poppins text-xs text-gray">
-                       {data?.data?.email}
+                        {data?.data?.email}
                       </div>
                     </div>
                   </div>

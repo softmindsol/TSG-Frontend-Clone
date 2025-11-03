@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StatCard from "../../components/common/StatCard";
 import NotificationsReminders from "../../components/common/NotificationsReminders";
 import Announcements from "../../components/common/Announcements";
 import TodaysFocus from "../../components/common/TodaysFocus";
 import { Clients } from "../../assets/icons";
 import { AiOutlineDollarCircle } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllClients } from "../../store/selector";
+import { getAllCommissionSummary } from "../../store/features/commission/service";
 
 // Import the reusable components we created
 
@@ -43,6 +46,26 @@ const TotalCommissionIcon = () => (
 // --- End of Mock Icons ---
 
 const AgentDashboard = () => {
+  const { data } = useSelector(selectAllClients);
+  console.log("🚀 ~ AgentDashboard ~ data:", data);
+  const totlaClients = data?.clients?.length;
+  console.log("🚀 ~ AgentDashboard ~ totlaClients:", totlaClients);
+
+  const dispatch = useDispatch();
+
+  // 🔹 Access data from Redux store
+  const { allSummary, isLoading, isError, errorMessage } = useSelector(
+    (state) => state.commission
+  );
+  console.log("🚀 ~ AgentDashboard ~ allSummary:", allSummary);
+
+  // 🔹 Fetch data when component mounts
+  useEffect(() => {
+    dispatch(getAllCommissionSummary());
+  }, [dispatch]);
+  const earned = allSummary?.data?.breakdown?.earned?.net;
+  const expected = allSummary?.data?.breakdown?.expected?.net;
+
   return (
     <div className="p-4 space-y-8">
       {/* Section 1: Stats Cards */}
@@ -50,7 +73,7 @@ const AgentDashboard = () => {
         <StatCard
           icon={<ActiveClientsIcon />}
           title="Active Clients"
-          value="7"
+          value={totlaClients}
           change="16%"
           changeType="increase"
           footerText="this month"
@@ -66,11 +89,10 @@ const AgentDashboard = () => {
         <StatCard
           icon={<TotalCommissionIcon />}
           title="Total Commission"
-          value="£8,450"
-          footerText="£12,300 expected"
+          value={`£ ${earned}`}
+          footerText={`£ ${expected} expected`}
         />
       </div>
-
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3">

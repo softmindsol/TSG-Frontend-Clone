@@ -4,10 +4,22 @@ import images from "../../assets/images";
 import CustomHeading from "../../components/common/Heading";
 import FormInput from "../../components/common/FormInput";
 import { EditIcon, LockIcon } from "../../assets/icons";
+import { changePassword } from "../../store/features/agent/service";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const ProfileSettings = () => {
+  const { data, isSuccess, errorMessage } = useSelector(
+    (state) => state.agent.CurrentAgent
+  );
+
+  const firstName = data?.data?.firstName;
+  const lastName = data?.data?.lastName;
+  const agentEmail = data?.data?.email;
+  const fullName = `${firstName} ${lastName}`;
+
   const [isEditingName, setIsEditingName] = useState(false);
-  const [name, setName] = useState("John Smith");
+  const [name, setName] = useState(fullName);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -18,8 +30,46 @@ const ProfileSettings = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [email, setEmail] = useState("johnsmith12@gmail.com");
+  const [email, setEmail] = useState(agentEmail);
   const [passwordAccordian, setPasswordAccordian] = useState(false);
+
+  const { isLoading } = useSelector((state) => state.agent.ChangePassword);
+  const dispatch = useDispatch();
+
+  console.log("🚀 ~ ProfileSettings ~ data:", data);
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    const payload = {
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    };
+
+    try {
+      const result = await dispatch(changePassword(payload)).unwrap();
+      if (result) {
+        // ✅ Optional: clear input fields after success
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+      }
+    } catch (error) {
+      // error toast already handled in thunk
+    }
+  };
+
   return (
     <>
       <div className="bg-white border border-gray-200 rounded-md p-6 mt-5 w-[80%]">
@@ -53,7 +103,10 @@ const ProfileSettings = () => {
             />
           </div>
           <div>
-            <CustomHeading heading="John Smith" fontSize="text-[24px]" />
+            <CustomHeading
+              heading={`${firstName} ${lastName}`}
+              fontSize="text-[24px]"
+            />
             <p className="text-[#6B7280] text-lg font-normal">Agent</p>
           </div>
         </div>
@@ -201,23 +254,14 @@ const ProfileSettings = () => {
                 </button>
               </div>
             </div>
-            <p className="text-[#081722] text-base font-medium">
-              Would you like your team members to have access to view your
-              clients and their details?
-             
-            </p>
-             <button
-                onClick={() => setCountAsPortfolio(!countAsPortfolio)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black ${
-                  countAsPortfolio ? "bg-black" : "bg-gray-600"
-                }`}
+            <div className="">
+              <button
+                className=" p-4 rounded-lg text-white bg-black text-sm"
+                onClick={handleChangePassword}
               >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    countAsPortfolio ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
+                Update Password
               </button>
+            </div>
           </div>
         )}
       </div>

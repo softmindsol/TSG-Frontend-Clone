@@ -48,7 +48,9 @@ const DocumentItem = ({ doc, onDelete }) => (
     </div>
   </div>
 );
-const Documents = ({ documents, clientId }) => {
+const Documents = ({ documents, clientId, amlDocuments }) => {
+  console.log("🚀 ~ Documents ~ amlDocuments:", amlDocuments);
+  console.log("🚀 ~ Documents ~ documents:", documents);
   const dispatch = useDispatch();
 
   const fileInputRef = useRef(null);
