@@ -24,7 +24,7 @@ const DashboardSidebar = ({
   const location = useLocation();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 const { data, isLoading, isSuccess, errorMessage } = useSelector((state) => state.agent.CurrentAgent);
-console.log("🚀 ~ DashboardSidebar ~ data:", data)
+
 
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
@@ -138,14 +138,14 @@ console.log("🚀 ~ DashboardSidebar ~ data:", data)
 
       {/* Logo */}
       <div
-        className={`flex justify-center pt-5 pb-8 ${isMinimized ? "px-2" : ""}`}
+        className={`flex pl-7 pt-5 pb-8 ${isMinimized ? "px-2" : ""}`}
       >
         {isMinimized ? (
           <div className="w-12 h-12 rounded-lg flex items-center justify-center">
             <img src={images.logo_light} alt="Logo" />
           </div>
         ) : (
-          <img src={images.logo_2} alt="Logo" className="h-[95px]" />
+          <img src={images.logo_2} alt="Logo" className=" w-[171px]" />
         )}
       </div>
 

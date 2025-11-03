@@ -15,18 +15,7 @@ const ListOfDeals = ({ setViewMode, clientId, setSingleDeal }) => {
 
   if (loading) return <p>Loading...</p>;
 
-  const allDeals = [
-    {
-      dealName: "Property for office space",
-      propertyAddress: "123 street, 456b house, UK",
-      status: "Viewing",
-    },
-    {
-      dealName: "Plot for house built",
-      propertyAddress: "123 street, 456b house, UK",
-      status: "Viewing",
-    },
-  ];
+
   const handleView = (item) => {
     setSingleDeal(item);
     setViewMode("dealView");

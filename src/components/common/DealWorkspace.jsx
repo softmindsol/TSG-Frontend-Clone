@@ -13,10 +13,18 @@ import ConveyancingMilestone from "../DealWordspaceComponents/ConveyancingMilest
 import OptionalMilestones from "../DealWordspaceComponents/OptionalMilestones";
 import DealDocument from "./DealDocument";
 import DealProgressTracker from "../DealWordspaceComponents/DealProgressTracker";
+import Icons from "../../assets/icons/Icons";
 
-const DealWorkspace = ({ singleDeal }) => {
+const DealWorkspace = ({ singleDeal, onBack }) => {
   return (
     <>
+      <div
+        className="my-4 flex item-center gap-3 cursor-pointer"
+        onClick={onBack}
+      >
+        <Icons.ArrowLeft size={22} />
+        Back
+      </div>
       <AccordionItem title="Key Dates">
         <KeyDates singleDeal={singleDeal} />
       </AccordionItem>

@@ -10,7 +10,7 @@ import clientDocumentReducer from "./features/clientDocument/slice";
 import eventReducer from "./features/event/slice";
 import documentsReducer from "./features/documents/slice";
 import commissionReducer from "./features/commission/slice";
-
+import aiReducer from "./features/aiAssistant/slice"
 import subscriptionReducer from "./features/stripe/slice"
 import teamReducer from "./features/member/slice"
 const store = configureStore({
@@ -28,6 +28,7 @@ const store = configureStore({
     commission: commissionReducer,
     subscription: subscriptionReducer,
     team: teamReducer,
+    aiAssistant: aiReducer
   },
 });
 

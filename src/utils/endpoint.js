@@ -86,6 +86,13 @@ const config = {
     addTeamMember: "member/add-member",
     getTeamMembers: "member/get-all-member",
     deleteTeamMember: "member/delete-member",
+  },
+  aiAssistant:{
+    startChatSession: "ai/start",
+    messageAI: "ai/message",
+    getChatHistory: "ai/history",
+    getChatById: "ai/history", // we'll append /:id dynamically
+    deleteChat: "ai", // we'll append /:sessionId dynamically
   }
 
 };

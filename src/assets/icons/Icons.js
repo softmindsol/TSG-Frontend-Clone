@@ -25,6 +25,7 @@ import { CiWarning } from "react-icons/ci";
 import { FiMessageSquare } from "react-icons/fi";
 import { BiSearchAlt } from "react-icons/bi";
 import { PiSidebarLight } from "react-icons/pi";
+import { FaArrowLeftLong } from "react-icons/fa6";
 const Icons = {
   userSetting: LiaUserCogSolid,
   userPlus: TbUsersPlus,
@@ -53,7 +54,8 @@ const Icons = {
   WarningIcon: CiWarning,
   MessageIcon: FiMessageSquare,
   SearchIcon: BiSearchAlt,
-  SideBar: PiSidebarLight
+  SideBar: PiSidebarLight,
+  ArrowLeft: FaArrowLeftLong
   
 };
 export default Icons;

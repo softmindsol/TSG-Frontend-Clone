@@ -9,7 +9,7 @@ const SubscriptionPlan = () => {
     (state) => state.agent.CurrentAgent
   );
   const dispatch = useDispatch();
-  console.log("🚀 ~ DashboardSidebar ~ data:", data?.data);
+
   const [billingPeriod, setBillingPeriod] = useState("monthly");
   const [planType, setPlanType] = useState("individual"); // 👈 added
 
