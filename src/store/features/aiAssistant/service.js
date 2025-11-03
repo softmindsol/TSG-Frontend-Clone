@@ -68,7 +68,7 @@ export const getChatById = createAsyncThunk(
     try {
       const res = await api.get(`${config.aiAssistant.getChatHistory}/${sessionId}`);
       const data = res.data?.data; // this is your array
-      console.log("🚀 ~ data:", data)
+     
      
       return {
       
