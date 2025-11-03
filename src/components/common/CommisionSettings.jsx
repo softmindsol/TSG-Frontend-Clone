@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { commissionSetting } from "../../store/features/client/service";
 import InfoCard from "./InfoCard";
 import { getClientCommissionSummary } from "../../store/features/commission/service";
+import { toast } from "sonner";
 
 const CommissionSettings = ({ clientId, commission }) => {
   console.log("🚀 ~ CommissionSettings ~ commission:", commission);
@@ -38,15 +39,15 @@ const CommissionSettings = ({ clientId, commission }) => {
 
   // 🟡 Save handler
   const handleSave = async () => {
-    if (!engagementType || !commissionType || !currency) {
-      alert("Please fill all required fields.");
-      return;
-    }
+    if (!engagementType || !commissionType) {
+  toast.error("Please fill all required fields.");
+  return;
+}
 
     const payload = {
       engagementType,
       commissionType,
-      currency,
+      // currency,
     };
 
     if (commissionType === "Percentage") {
@@ -190,7 +191,7 @@ const CommissionSettings = ({ clientId, commission }) => {
         )}
 
         {/* 🪙 Currency */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Currency
           </label>
@@ -205,7 +206,7 @@ const CommissionSettings = ({ clientId, commission }) => {
           ) : (
             <p className="p-2 bg-gray-50 rounded-lg">{currency || "--"}</p>
           )}
-        </div>
+        </div> */}
       </div>
     </InfoCard>
   );
