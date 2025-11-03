@@ -109,6 +109,7 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
 
     await dispatch(createClient(formData)).unwrap();
     dispatch(getAllClients());
+    onClose();
   };
 
   return (
@@ -282,7 +283,6 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
               />
             </div>
           </div>
-
           {/* Buying Preferences */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-800 mb-5">
@@ -581,7 +581,6 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
               />
             </div>
           </div>
-
           {/* Notes */}
           <div className="mb-8">
             <label className="block text-lg font-semibold text-gray-800 mb-3">
@@ -611,45 +610,48 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
             )}
           </div>
 
-          {/* File Upload */}
-          <div className="mb-8">
-            <FileUpload
-              {...register("documents", {
-                validate: {
-                  fileType: (files) => {
-                    if (!files?.length) return true; // no file selected = okay
-                    const validTypes = [
-                      "application/pdf",
-                      "application/msword",
-                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    ];
-                    for (let file of files) {
-                      // check type AND extension (for browsers that send generic mime type)
-                      const extension = file.name
-                        .split(".")
-                        .pop()
-                        .toLowerCase();
-                      if (
-                        !validTypes.includes(file.type) &&
-                        !["pdf", "doc", "docx"].includes(extension)
-                      ) {
-                        return "Only PDF or DOC/DOCX files are allowed";
-                      }
+          <Controller
+            name="documents"
+            control={control}
+            rules={{
+              validate: {
+                fileType: (files) => {
+                  if (!files?.length) return true;
+                  const validTypes = [
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  ];
+                  for (let file of files) {
+                    const extension = file.name.split(".").pop().toLowerCase();
+                    if (
+                      !validTypes.includes(file.type) &&
+                      !["pdf", "doc", "docx"].includes(extension)
+                    ) {
+                      return "Only PDF or DOC/DOCX files are allowed";
                     }
-                    return true;
-                  },
+                  }
+                  return true;
                 },
-              })}
-              accept=".pdf,.doc,.docx"
-            />
-
-            {errors.documents && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.documents.message}
-              </p>
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <>
+                <FileUpload
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                  value={field.value}
+                  accept=".pdf,.doc,.docx"
+                />
+                {fieldState.error && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </>
             )}
-          </div>
-
+          />
           {/* Footer */}
           <div className="flex justify-end items-center pt-6 border-t border-gray-200 space-x-4">
             <GlobalButton

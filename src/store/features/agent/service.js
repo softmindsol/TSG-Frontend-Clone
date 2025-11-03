@@ -110,4 +110,36 @@ const getCurrentAgent = createAsyncThunk(
   }
 );
 
-export { registerAgent, loginAgent, logoutAgent, getCurrentAgent };
+const changePassword = createAsyncThunk(
+  "agent/changePassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`${config.agent.changePassword}`, data);
+
+      if (response.status === 200 || response.status === 201) {
+        toast.success(
+          response?.data?.message || "Password changed successfully"
+        );
+        return response.data;
+      }
+
+      throw new Error("Failed to change password");
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Failed to change password";
+
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export {
+  registerAgent,
+  loginAgent,
+  logoutAgent,
+  getCurrentAgent,
+  changePassword,
+};

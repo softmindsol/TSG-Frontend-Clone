@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NotificationsDropdown from "../../components/common/NotificationsDropdown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../routes/paths";
 import { BiMenu } from "react-icons/bi";
-import { logoutAgent } from "../../store/features/agent/service";
-import { useDispatch } from "react-redux";
+import {
+  getCurrentAgent,
+  logoutAgent,
+} from "../../store/features/agent/service";
+import { useDispatch, useSelector } from "react-redux";
 
 const DashboardHeader = ({ isMinimized, onMobileMenuClick }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -13,6 +16,16 @@ const DashboardHeader = ({ isMinimized, onMobileMenuClick }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data, isLoading, isSuccess, errorMessage } = useSelector(
+    (state) => state.agent.CurrentAgent
+  );
+  const agentName = data?.data?.firstName || "John";
+  console.log("🚀 ~ DashboardHeader ~ agentName:", agentName);
+
+  useEffect(() => {
+    dispatch(getCurrentAgent());
+  }, [dispatch]);
 
   const handleSearchChange = (e) => setSearchValue(e.target.value);
 
@@ -78,7 +91,7 @@ const DashboardHeader = ({ isMinimized, onMobileMenuClick }) => {
   };
 
   const { title, subtitle } = headerConfig[location.pathname] || {
-    title: "Hello, John! 👋",
+    title: `Hello, ${agentName} 👋`,
     subtitle: "Ready to close some deals today??",
   };
 
@@ -208,10 +221,10 @@ const DashboardHeader = ({ isMinimized, onMobileMenuClick }) => {
                   />
                   <div>
                     <div className="font-poppins text-xs md:text-sm font-medium text-dark">
-                      John Smith
+                      {data?.data?.firstName}
                     </div>
                     <div className="font-poppins text-xs text-gray">
-                      john.smith@company.com
+                      {data?.data?.email}
                     </div>
                   </div>
                 </div>

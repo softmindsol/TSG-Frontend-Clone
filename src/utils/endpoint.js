@@ -4,7 +4,8 @@ const config = {
   agent: {
     agentRegister: "agents/register-agent",
     agentLogin: "agents/login-agent",
-    currentAgent: "agents/current"
+    currentAgent: "agents/current",
+    changePassword: "agents/change-password",
   },
   client: {
     createClient: "clients/create-client",
@@ -78,6 +79,7 @@ const config = {
   },
   commission: {
     getClientCommissionSummary: "clients/client-commission-summary",
+    getAllCommissionSumary: "deal/commission/summary",
   },
   checkout: {
     createCheckoutSession: "checkout/create-checkout-session",

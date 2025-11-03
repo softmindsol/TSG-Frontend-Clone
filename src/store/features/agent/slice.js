@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAgent, logoutAgent, registerAgent, getCurrentAgent } from "./service"; // 👈 thunk import
+import {
+  loginAgent,
+  logoutAgent,
+  registerAgent,
+  getCurrentAgent,
+  changePassword,
+} from "./service"; // 👈 thunk import
 
 // 🧩 Initial State
 const initialState = {
@@ -16,6 +22,12 @@ const initialState = {
     errorMessage: "",
   },
   CurrentAgent: {
+    data: null,
+    isLoading: false,
+    isSuccess: false,
+    errorMessage: "",
+  },
+  ChangePassword: {
     data: null,
     isLoading: false,
     isSuccess: false,
@@ -110,6 +122,24 @@ export const agentSlice = createSlice({
         errorMessage: "",
       };
     });
+
+    // Change Password
+    builder
+      .addCase(changePassword.pending, (state) => {
+        state.ChangePassword.isLoading = true;
+        state.ChangePassword.isSuccess = false;
+        state.ChangePassword.errorMessage = "";
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.ChangePassword.isLoading = false;
+        state.ChangePassword.isSuccess = true;
+        state.ChangePassword.data = action.payload;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.ChangePassword.isLoading = false;
+        state.ChangePassword.isSuccess = false;
+        state.ChangePassword.errorMessage = action.payload;
+      });
   },
 });
 
