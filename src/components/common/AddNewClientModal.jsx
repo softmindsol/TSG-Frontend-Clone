@@ -36,7 +36,7 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
   const { data, isSuccess, errorMessage } = useSelector(
     (state) => state.agent.Team
   );
-  
+
   const {
     register,
     handleSubmit,
@@ -64,75 +64,77 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const onSubmit = async (data) => {
-  const clientsData = {
-    clientName: data.clientName,
-    clientEmail: data.clientEmail,
-    phoneNumber: data.phoneNumber,
-    clientType: data.clientType,
-    address: data.address,
-    currentPosition: data.currentPosition,
-    category: data.category,
-    assignedAgent: data.assignedAgent, // ✅ new line
-    buyingPreference: {
-      budgetMin: data.budgetMin,
-      budgetMax: data.budgetMax,
-      propertyType: data.propertyType,
-      reasonForMove: data.reasonForMove,
-      timeframe: data.timeframe,
-      designStyle: data.designStyle,
-      avoids: data.avoid || [],
-      mustHaves: data.mustHaves || [],
-      purchaseMethod: data.purchaseMethod,
-      preferredLocation: data.preferredArea,
-      quickNotes: data.quickNotes,
-    },
-    documents: data.documents || [],
-  };
+    const clientsData = {
+      clientName: data.clientName,
+      clientEmail: data.clientEmail,
+      phoneNumber: data.phoneNumber,
+      clientType: data.clientType,
+      address: data.address,
+      currentPosition: data.currentPosition,
+      category: data.category,
+      assignedAgent: data.assignedAgent, // ✅ new line
+      buyingPreference: {
+        budgetMin: data.budgetMin,
+        budgetMax: data.budgetMax,
+        propertyType: data.propertyType,
+        reasonForMove: data.reasonForMove,
+        timeframe: data.timeframe,
+        designStyle: data.designStyle,
+        avoids: data.avoid || [],
+        mustHaves: data.mustHaves || [],
+        purchaseMethod: data.purchaseMethod,
+        preferredLocation: data.preferredArea,
+        quickNotes: data.quickNotes,
+      },
+      documents: data.documents || [],
+    };
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  formData.append("clientName", clientsData.clientName);
-  formData.append("clientEmail", clientsData.clientEmail);
-  formData.append("phoneNumber", clientsData.phoneNumber);
-  formData.append("clientType", clientsData.clientType);
-  formData.append("address", clientsData.address);
-  formData.append("currentPosition", clientsData.currentPosition);
-  formData.append("assignedAgent", clientsData.assignedAgent); // ✅ important line
+    formData.append("clientName", clientsData.clientName);
+    formData.append("clientEmail", clientsData.clientEmail);
+    formData.append("phoneNumber", clientsData.phoneNumber);
+    formData.append("clientType", clientsData.clientType);
+    formData.append("address", clientsData.address);
+    formData.append("currentPosition", clientsData.currentPosition);
+    formData.append("assignedAgent", clientsData.assignedAgent); // ✅ important line
 
-  formData.append("budgetMin", clientsData.buyingPreference.budgetMin);
-  formData.append("budgetMax", clientsData.buyingPreference.budgetMax);
-  formData.append("propertyType", clientsData.buyingPreference.propertyType);
-  formData.append("reasonForMove", clientsData.buyingPreference.reasonForMove);
-  formData.append("timeframe", clientsData.buyingPreference.timeframe);
-  formData.append("designStyle", clientsData.buyingPreference.designStyle);
-
-  clientsData.buyingPreference.avoids.forEach((item) =>
-    formData.append("avoids[]", item)
-  );
-  clientsData.buyingPreference.mustHaves.forEach((item) =>
-    formData.append("mustHaves[]", item)
-  );
-  formData.append(
-    "purchaseMethod",
-    clientsData.buyingPreference.purchaseMethod
-  );
-  formData.append(
-    "preferredLocation",
-    clientsData.buyingPreference.preferredLocation
-  );
-  formData.append("quickNotes", clientsData.buyingPreference.quickNotes);
-
-  if (clientsData.documents.length > 0) {
-    clientsData.documents.forEach((file) =>
-      formData.append("documents", file)
+    formData.append("budgetMin", clientsData.buyingPreference.budgetMin);
+    formData.append("budgetMax", clientsData.buyingPreference.budgetMax);
+    formData.append("propertyType", clientsData.buyingPreference.propertyType);
+    formData.append(
+      "reasonForMove",
+      clientsData.buyingPreference.reasonForMove
     );
-  }
+    formData.append("timeframe", clientsData.buyingPreference.timeframe);
+    formData.append("designStyle", clientsData.buyingPreference.designStyle);
 
-  await dispatch(createClient(formData)).unwrap();
-  dispatch(getAllClients());
-  onClose();
-};
+    clientsData.buyingPreference.avoids.forEach((item) =>
+      formData.append("avoids[]", item)
+    );
+    clientsData.buyingPreference.mustHaves.forEach((item) =>
+      formData.append("mustHaves[]", item)
+    );
+    formData.append(
+      "purchaseMethod",
+      clientsData.buyingPreference.purchaseMethod
+    );
+    formData.append(
+      "preferredLocation",
+      clientsData.buyingPreference.preferredLocation
+    );
+    formData.append("quickNotes", clientsData.buyingPreference.quickNotes);
 
+    if (clientsData.documents.length > 0) {
+      clientsData.documents.forEach((file) =>
+        formData.append("documents", file)
+      );
+    }
+
+    await dispatch(createClient(formData)).unwrap();
+    dispatch(getAllClients());
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 p-4 font-poppins">
@@ -390,10 +392,10 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
                   <div>
                     <SelectInput
                       label="Property Category"
-                      placeholder="Select Category"
+                      placeholder="Select residential/commercial type"
                       options={[
-                        { value: "residential", label: "Residential" },
-                        { value: "commercial", label: "Commercial" },
+                        { value: "residential", label: "Residential (R)" },
+                        { value: "commercial", label: "Commercial (C)" },
                       ]}
                       value={field.value}
                       onChange={field.onChange}
@@ -418,7 +420,7 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
                       <div>
                         <SelectInput
                           label="Residential Property Types"
-                          placeholder="Select Type"
+                          placeholder="Select residential type"
                           options={residentialPropertyOptions}
                           value={field.value}
                           onChange={field.onChange}
@@ -465,7 +467,7 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
                       <div>
                         <SelectInput
                           label="Commercial Property Types"
-                          placeholder="Select Commercial Property Types"
+                          placeholder="Select commercial type"
                           options={commercialPropertyOptions}
                           value={field.value}
                           onChange={field.onChange}
