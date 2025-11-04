@@ -5,6 +5,7 @@ import {
   registerAgent,
   getCurrentAgent,
   changePassword,
+  getTeam,
 } from "./service"; // 👈 thunk import
 
 // 🧩 Initial State
@@ -28,6 +29,12 @@ const initialState = {
     errorMessage: "",
   },
   ChangePassword: {
+    data: null,
+    isLoading: false,
+    isSuccess: false,
+    errorMessage: "",
+  },
+  Team: {
     data: null,
     isLoading: false,
     isSuccess: false,
@@ -139,6 +146,24 @@ export const agentSlice = createSlice({
         state.ChangePassword.isLoading = false;
         state.ChangePassword.isSuccess = false;
         state.ChangePassword.errorMessage = action.payload;
+      })
+
+      // Get Team
+      .addCase(getTeam.pending, (state) => {
+        state.Team.isLoading = true;
+        state.Team.isSuccess = false;
+        state.Team.errorMessage = "";
+      })
+      .addCase(getTeam.fulfilled, (state, action) => {
+        
+        state.Team.isLoading = false;
+        state.Team.isSuccess = true;
+        state.Team.data = action.payload;
+      })
+      .addCase(getTeam.rejected, (state, action) => {
+        state.Team.isLoading = false;
+        state.Team.isSuccess = false;
+        state.Team.errorMessage = action.payload;
       });
   },
 });

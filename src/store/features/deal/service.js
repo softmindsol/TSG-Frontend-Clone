@@ -235,7 +235,7 @@ export const getDocuments = createAsyncThunk(
   async ({ dealId }, { rejectWithValue }) => {
     try {
       const response = await api.get(`${config.deal.getDocuments}/${dealId}`);
-      console.log("🚀 ~ response:", response)
+    
       return response.data;
     } catch (error) {
       const message = error?.response?.data?.message || "Failed to fetch documents";

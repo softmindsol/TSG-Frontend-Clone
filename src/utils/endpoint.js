@@ -6,6 +6,7 @@ const config = {
     agentLogin: "agents/login-agent",
     currentAgent: "agents/current",
     changePassword: "agents/change-password",
+    getTeam: "agents/get-team"
   },
   client: {
     createClient: "clients/create-client",

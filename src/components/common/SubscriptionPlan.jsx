@@ -11,7 +11,7 @@ const SubscriptionPlan = () => {
   const dispatch = useDispatch();
 
   const [billingPeriod, setBillingPeriod] = useState("monthly");
-  console.log("🚀 ~ SubscriptionPlan ~ billingPeriod:", billingPeriod)
+
   const [planType, setPlanType] = useState("individual"); // 👈 added
 
   const subscriptionPlan = [

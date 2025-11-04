@@ -36,7 +36,7 @@ import CommissionSettings from "../../components/common/CommisionSettings";
 
 const ClientDetailsPage = () => {
   const [singleDeal, setSingleDeal] = useState({});
-  console.log("🚀 ~ ClientDetailsPage ~ singleDeal:", singleDeal);
+
 
   const { clientId } = useParams();
 
@@ -49,7 +49,6 @@ const ClientDetailsPage = () => {
     isLoading,
     errorMessage,
   } = useSelector(selectSingleClient);
-  console.log("🚀 ~ ClientDetailsPage ~ client:", client);
 
   const {
     data: extraContacts,
@@ -70,10 +69,7 @@ const ClientDetailsPage = () => {
 
   const [localClientData, setLocalClientData] = useState(null);
   const [localPreferencesData, setLocalPreferencesData] = useState(null);
-  console.log(
-    "🚀 ~ ClientDetailsPage ~ localPreferencesData:",
-    localPreferencesData
-  );
+
 
   useEffect(() => {
     if (client) {
@@ -107,7 +103,7 @@ const ClientDetailsPage = () => {
           quickNotes: localPreferencesData?.quickNotes,
         },
       };
-      console.log("🚀 ~ handleEditOverviewToggle ~ updatedData:", updatedData);
+     
       try {
         await dispatch(
           updateClient({ clientId: client._id, updatedData })

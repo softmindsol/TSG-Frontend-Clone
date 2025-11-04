@@ -36,7 +36,7 @@ export const getExtraContacts = createAsyncThunk(
       const response = await api.get(
         `${config.extraContact.getExtraContacts}/${clientId}`
       );
-      console.log("🚀 ~ response:", response);
+      
 
       // Optional toast
       toast.success("Fetched extra contacts successfully!");

@@ -14,7 +14,7 @@ export const startSession = createAsyncThunk(
     try {
       const res = await api.post(config.aiAssistant.startChatSession, payload);
       // ✅ The backend returns data directly inside res.data.data
-      console.log("🚀 startSession response:", res.data);
+
       return res.data.data;
     } catch (error) {
       toast.error(

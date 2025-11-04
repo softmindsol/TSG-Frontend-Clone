@@ -58,13 +58,13 @@ const DocumentItem = ({ doc, onDelete }) => (
 );
 
 const DealDocument = ({ singleDeal }) => {
-  console.log("🚀 ~ DealDocument ~ singleDeal:", singleDeal);
+
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const dealId = singleDeal?._id;
   const documents = singleDeal?.documents || [];
   const dealDocuments = useSelector((state) => state.deal.dealDocument);
-  console.log("🚀 ~ DealDocument ~ dealDocuments:", dealDocuments)
+  
 
   // ✅ Upload Documents + Refresh Immediately
   const handleFileSelect = (event) => {

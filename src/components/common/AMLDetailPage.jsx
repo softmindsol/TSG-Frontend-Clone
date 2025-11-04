@@ -6,7 +6,7 @@ import AuditTrail from "../AMLDetailPages/AuditTrail";
 import { FiHome, FiFileText, FiActivity } from "react-icons/fi";
 
 const AMLDetailPage = ({ onBack , client}) => {
-console.log("🚀 ~ AMLDetailPage ~ client:", client)
+
 
 
   const [activeTab, setActiveTab] = useState("Overview");

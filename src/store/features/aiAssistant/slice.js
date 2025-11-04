@@ -69,7 +69,7 @@ const aiAssistantSlice = createSlice({
 
       // Get chat by ID
       .addCase(getChatById.fulfilled, (state, action) => {
-        console.log("✅ getChatById.fulfilled:", action.payload);
+        
         state.activeSession = action.payload.sessionId;
         state.messages = action.payload.messages || [];
       })

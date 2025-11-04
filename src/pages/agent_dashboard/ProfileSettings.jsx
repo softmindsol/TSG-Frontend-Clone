@@ -36,7 +36,7 @@ const ProfileSettings = () => {
   const { isLoading } = useSelector((state) => state.agent.ChangePassword);
   const dispatch = useDispatch();
 
-  console.log("🚀 ~ ProfileSettings ~ data:", data);
+
 
   const handleChangePassword = async (e) => {
     e.preventDefault();

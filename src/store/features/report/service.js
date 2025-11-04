@@ -7,7 +7,7 @@ export const generateAMLReport = createAsyncThunk(
   "amlCompliance/generateAMLReport",
   async ({ clientId, reportType, additionalNotes }, { rejectWithValue }) => {
     try {
-      console.log("Request started...");
+     
       if (!clientId || !reportType) {
         throw new Error("Client ID and report type are required");
       }

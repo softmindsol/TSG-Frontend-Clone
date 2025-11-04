@@ -15,7 +15,6 @@ export const createCheckoutSession = createAsyncThunk(
         planType,
         billingInterval,
       });
-      console.log("🚀 ~ data:", data)
 
       // Expecting backend to return something like { url: "https://checkout.stripe.com/..." }
       if (data?.data?.url) {

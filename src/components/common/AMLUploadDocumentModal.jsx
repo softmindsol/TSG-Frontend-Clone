@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { addAMLDocument, getAMLDocuments } from "../../store/features/amlCompliance/service";
 
 const AMLUploadDocumentModal = ({ isOpen, onClose, client }) => {
-  console.log("🚀 ~ AMLUploadDocumentModal ~ client:", client)
+
   const dispatch = useDispatch();
 
   const [file, setFile] = useState(null);

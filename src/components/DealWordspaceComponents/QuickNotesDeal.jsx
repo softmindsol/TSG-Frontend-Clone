@@ -29,7 +29,7 @@ const QuickNotesDeal = ({ singleDeal }) => {
   const onSubmit = async (data) => {
     const dealId = singleDeal?._id;
     if (!dealId) {
-      console.error("❌ Deal ID missing, cannot update quick notes.");
+  
       return;
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +24,17 @@ import {
   createClient,
   getAllClients,
 } from "../../store/features/client/service";
+import { getTeam } from "../../store/features/agent/service";
 
 const AddNewClientModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTeam());
+  }, [dispatch]);
+  const { data, isSuccess, errorMessage } = useSelector(
+    (state) => state.agent.Team
+  );
+  
   const {
     register,
     handleSubmit,
@@ -42,75 +50,75 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const onSubmit = async (data) => {
-    const clientsData = {
-      clientName: data.clientName,
-      clientEmail: data.clientEmail,
-      phoneNumber: data.phoneNumber,
-      clientType: data.clientType,
-      address: data.address,
-      currentPosition: data.currentPosition,
-      category: data.category,
-      buyingPreference: {
-        budgetMin: data.budgetMin,
-        budgetMax: data.budgetMax,
-        propertyType: data.propertyType,
-        reasonForMove: data.reasonForMove,
-        timeframe: data.timeframe,
-        designStyle: data.designStyle,
-        avoids: data.avoid || [],
-        mustHaves: data.mustHaves || [],
-        purchaseMethod: data.purchaseMethod,
-        preferredLocation: data.preferredArea,
-        quickNotes: data.quickNotes,
-      },
-      documents: data.documents || [],
-    };
-
-    const formData = new FormData();
-
-    formData.append("clientName", clientsData.clientName);
-    formData.append("clientEmail", clientsData.clientEmail);
-    formData.append("phoneNumber", clientsData.phoneNumber);
-    formData.append("clientType", clientsData.clientType);
-    formData.append("address", clientsData.address);
-    formData.append("currentPosition", clientsData.currentPosition);
-
-    formData.append("budgetMin", clientsData.buyingPreference.budgetMin);
-    formData.append("budgetMax", clientsData.buyingPreference.budgetMax);
-    formData.append("propertyType", clientsData.buyingPreference.propertyType);
-    formData.append(
-      "reasonForMove",
-      clientsData.buyingPreference.reasonForMove
-    );
-    formData.append("timeframe", clientsData.buyingPreference.timeframe);
-    formData.append("designStyle", clientsData.buyingPreference.designStyle);
-
-    clientsData.buyingPreference.avoids.forEach((item) =>
-      formData.append("avoids[]", item)
-    );
-    clientsData.buyingPreference.mustHaves.forEach((item) =>
-      formData.append("mustHaves[]", item)
-    );
-    formData.append(
-      "purchaseMethod",
-      clientsData.buyingPreference.purchaseMethod
-    );
-    formData.append(
-      "preferredLocation",
-      clientsData.buyingPreference.preferredLocation
-    );
-    formData.append("quickNotes", clientsData.buyingPreference.quickNotes);
-
-    if (clientsData.documents.length > 0) {
-      clientsData.documents.forEach((file) =>
-        formData.append("documents", file)
-      );
-    }
-
-    await dispatch(createClient(formData)).unwrap();
-    dispatch(getAllClients());
-    onClose();
+  const clientsData = {
+    clientName: data.clientName,
+    clientEmail: data.clientEmail,
+    phoneNumber: data.phoneNumber,
+    clientType: data.clientType,
+    address: data.address,
+    currentPosition: data.currentPosition,
+    category: data.category,
+    assignedAgent: data.assignedAgent, // ✅ new line
+    buyingPreference: {
+      budgetMin: data.budgetMin,
+      budgetMax: data.budgetMax,
+      propertyType: data.propertyType,
+      reasonForMove: data.reasonForMove,
+      timeframe: data.timeframe,
+      designStyle: data.designStyle,
+      avoids: data.avoid || [],
+      mustHaves: data.mustHaves || [],
+      purchaseMethod: data.purchaseMethod,
+      preferredLocation: data.preferredArea,
+      quickNotes: data.quickNotes,
+    },
+    documents: data.documents || [],
   };
+
+  const formData = new FormData();
+
+  formData.append("clientName", clientsData.clientName);
+  formData.append("clientEmail", clientsData.clientEmail);
+  formData.append("phoneNumber", clientsData.phoneNumber);
+  formData.append("clientType", clientsData.clientType);
+  formData.append("address", clientsData.address);
+  formData.append("currentPosition", clientsData.currentPosition);
+  formData.append("assignedAgent", clientsData.assignedAgent); // ✅ important line
+
+  formData.append("budgetMin", clientsData.buyingPreference.budgetMin);
+  formData.append("budgetMax", clientsData.buyingPreference.budgetMax);
+  formData.append("propertyType", clientsData.buyingPreference.propertyType);
+  formData.append("reasonForMove", clientsData.buyingPreference.reasonForMove);
+  formData.append("timeframe", clientsData.buyingPreference.timeframe);
+  formData.append("designStyle", clientsData.buyingPreference.designStyle);
+
+  clientsData.buyingPreference.avoids.forEach((item) =>
+    formData.append("avoids[]", item)
+  );
+  clientsData.buyingPreference.mustHaves.forEach((item) =>
+    formData.append("mustHaves[]", item)
+  );
+  formData.append(
+    "purchaseMethod",
+    clientsData.buyingPreference.purchaseMethod
+  );
+  formData.append(
+    "preferredLocation",
+    clientsData.buyingPreference.preferredLocation
+  );
+  formData.append("quickNotes", clientsData.buyingPreference.quickNotes);
+
+  if (clientsData.documents.length > 0) {
+    clientsData.documents.forEach((file) =>
+      formData.append("documents", file)
+    );
+  }
+
+  await dispatch(createClient(formData)).unwrap();
+  dispatch(getAllClients());
+  onClose();
+};
+
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 p-4 font-poppins">
@@ -182,6 +190,35 @@ const AddNewClientModal = ({ isOpen, onClose }) => {
                   </p>
                 )}
               </div>
+
+              <Controller
+                name="assignedAgent"
+                control={control}
+                rules={{ required: "Assigned agent is required" }}
+                render={({ field }) => (
+                  <div>
+                    <SelectInput
+                      label="Assigned Agent"
+                      placeholder="Select Agent"
+                      options={
+                        isSuccess && data?.team
+                          ? data.team.map((member) => ({
+                              value: member._id,
+                              label: `${member.firstName} ${member.lastName}`,
+                            }))
+                          : []
+                      }
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                    {errors.assignedAgent && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.assignedAgent.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
 
               <Controller
                 name="phoneNumber"

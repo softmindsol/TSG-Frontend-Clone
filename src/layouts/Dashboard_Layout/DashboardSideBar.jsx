@@ -26,8 +26,7 @@ const DashboardSidebar = ({
   const { data, isLoading, isSuccess, errorMessage } = useSelector(
     (state) => state.agent.CurrentAgent
   );
-  console.log("🚀 ~ DashboardSidebar ~ data:", data);
-
+  
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
   };

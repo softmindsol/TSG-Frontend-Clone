@@ -29,12 +29,6 @@ const ManageTeams = () => {
     { key: "phoneNumber", label: "PHONE NUMBER" },
     { key: "companyName", label: "COMPANY NAME" },
 
-    // {
-    //   key: "progress",
-    //   label: "Progress",
-    //   render: (progress) =>
-    //     progress !== undefined ? <ProgressBar percentage={progress} /> : null,
-    // },
     {
       key: "operatingArea",
       label: "OPERATING AREA",
@@ -47,73 +41,27 @@ const ManageTeams = () => {
     },
     { key: "bio", label: "BIO & INTRO" },
 
-    // {
-    //   key: "status",
-    //   label: "Status",
-    //   render: (status) => <StatusBadge status={status} />,
-    // },
     {
       key: "actions",
       label: "Actions",
       render: (_, row) => (
         <div className="flex items-center gap-6">
           <Icons.EyeIcon />
+           {agentData?.data?.agentType === "agency" && (
           <Icons.DeleteIcon />
+           )}
         </div>
       ),
     },
   ];
-  const tableData = [
-    {
-      member: { name: "Green Energy Co", email: "info@greenenergy.com" },
-      phoneNumber: "+44 7346 876 773",
-      companyName: "Alex Thompson",
-      bio: "Experienced real estate professional...",
-      operatingArea: "27/01/2025",
-      status: "Active",
-    },
-    {
-      member: { name: "Johnson Corp", email: "johnson@corp.com" },
-      phoneNumber: "+44 7346 876 773",
-      companyName: "Alex Thompson",
-      bio: "Experienced real estate professional...",
-      operatingArea: "27/01/2025",
-      status: "Inactive",
-    },
-    {
-      member: { name: "Maria Rodriguez", email: "maria.rodriguez@email.com" },
-      phoneNumber: "+44 7346 876 773",
-      companyName: "Alex Thompson",
-      bio: "Experienced real estate professional...",
-      operatingArea: "27/01/2025",
-      status: "Active",
-    },
-    {
-      member: { name: "Sarah Wilson", email: "sarah.wilson@email.com" },
-      phoneNumber: "+44 7346 876 773",
-      companyName: "Alex Thompson",
-      bio: "Experienced real estate professional...",
-      operatingArea: "27/01/2025",
-      status: "Active",
-    },
-    {
-      member: { name: "StartupX", email: "hello@startupx.com" },
-      phoneNumber: "+44 7346 876 773",
-      companyName: "Alex Thompson",
-      bio: "Experienced real estate professional...",
-      operatingArea: "27/01/2025",
-      status: "Inactive",
-    },
-  ];
+
   const dispatch = useDispatch();
   const { data: agentData } = useSelector((state) => state.agent.CurrentAgent);
+  
   const agentId = agentData?.data?._id;
 
   // 👇 get team members and loading state
-  const items = useSelector((state) => state.team);
-  console.log("🚀 ~ ManageTeams ~ teamMembers:", items);
-  const isLoading = useSelector(selectTeamIsLoading);
-  const error = useSelector(selectTeamError);
+  const { items, isLoading, error } = useSelector((state) => state.team);
 
   useEffect(() => {
     if (agentId) {
@@ -129,9 +77,14 @@ const ManageTeams = () => {
             heading="List of Team Members"
             fontSize="text-[20px]"
           />
-          <GlobalButton variant="primary" onClick={() => setIsModalOpen(true)}>
-            + Add New Memeber
-          </GlobalButton>
+          {agentData?.data?.agentType === "agency" && (
+            <GlobalButton
+              variant="primary"
+              onClick={() => setIsModalOpen(true)}
+            >
+              + Add New Member
+            </GlobalButton>
+          )}
         </div>
         <AddNewTeamMemberModal
           isOpen={isModalOpen}
@@ -139,7 +92,26 @@ const ManageTeams = () => {
           agentId={agentId}
         />
         <div className="mt-5">
-          <ReusableTable data={tableData} columns={tableColumns} />
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : error ? (
+            <div>Error: {error}</div>
+          ) : (
+            <ReusableTable
+              data={items?.map((member) => ({
+                member: {
+                  name: `${member.firstName} ${member.lastName}`,
+                  email: member.email,
+                },
+                phoneNumber: member.phoneNumber,
+                companyName: member.companyName,
+                bio: member.agentType,
+                operatingArea: member.operatingArea,
+                status: member.status,
+              }))}
+              columns={tableColumns}
+            />
+          )}
         </div>
       </div>
     </>

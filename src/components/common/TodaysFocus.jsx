@@ -53,12 +53,11 @@ const TodaysFocus = () => {
     ? allClientsData
     : allClientsData?.clients || allClientsData?.data || [];
 
-  console.log("🚀 ~ TodaysFocus ~ events:", events);
-  console.log("🚀 ~ TodaysFocus ~ clientsArray:", clientsArray);
+  
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      console.log("🚀 ~ deleteEvent ~ eventId:", eventId);
+     
 
       // Wait for deleteEvent to finish first
       await dispatch(deleteEvent(eventId)).unwrap();
@@ -66,9 +65,7 @@ const TodaysFocus = () => {
       // Then refresh today's events
       await dispatch(getTodayEvents()).unwrap();
 
-      console.log(
-        "✅ Event deleted and today's events refreshed successfully."
-      );
+      
     } catch (error) {
       console.error("❌ Error deleting event:", error);
     }
