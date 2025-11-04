@@ -440,7 +440,7 @@ const WeekView = ({
 }) => {
   
   const EventCard = ({ event, onClick }) => {
-    console.log("🚀 ~ EventCard ~ event:", event);
+
     const style = EVENT_STYLES[event.type];
     const borderClass = style.dashed
       ? "border-2 border-dashed"
@@ -826,7 +826,7 @@ const CalendarView = () => {
 
   // Get events from Redux store
   const events = useSelector(selectEvents);
-  console.log("🚀 ~ CalendarView ~ events:", events);
+  
   const isLoading = useSelector(selectIsLoadingEvents);
 
   // Fetch events when date range changes
@@ -877,7 +877,7 @@ const CalendarView = () => {
   }, [currentDate, viewMode, fetchEventsForRange]);
 
   const formattedEvents = useMemo(() => {
-    console.log("Raw events from API:", events);
+   
     const mapped = events.map((event) => {
       // Parse the UTC dates and convert to local time
       const startDate = new Date(event.start);
@@ -917,21 +917,21 @@ const CalendarView = () => {
         allDay: event.allDay,
         status: event.status,
       };
-      console.log("Formatted event:", formatted);
+  
       return formatted;
     });
-    console.log("All formatted events:", mapped);
+    
     return mapped;
   }, [events]);
 
   const filteredEvents = useMemo(() => {
     const checkedUserNames = users.filter((u) => u.checked).map((u) => u.name);
-    console.log("Checked user names:", checkedUserNames);
+    
     const filtered =
       checkedUserNames.length === 0
         ? []
         : formattedEvents.filter((e) => checkedUserNames.includes(e.user));
-    console.log("Filtered events:", filtered);
+    
     return filtered;
   }, [users, formattedEvents]);
   const handleUserToggle = useCallback(
@@ -958,12 +958,12 @@ const CalendarView = () => {
         return sameDay && matchesSlot;
       });
 
-      console.log("Events for slot:", {
-        dayDate: dayDate.toISOString(),
-        timeSlot,
-        eventCount: slotEvents.length,
-        events: slotEvents,
-      });
+      // console.log("Events for slot:", {
+      //   dayDate: dayDate.toISOString(),
+      //   timeSlot,
+      //   eventCount: slotEvents.length,
+      //   events: slotEvents,
+      // });
 
       return slotEvents;
     },

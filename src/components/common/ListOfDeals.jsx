@@ -7,7 +7,6 @@ const ListOfDeals = ({ setViewMode, clientId, setSingleDeal }) => {
   const dispatch = useDispatch();
   const { deals, deal, loading, error } = useSelector((state) => state.deal);
 
-  console.log("🚀 ~ ListOfDeals ~ deals:", deals);
 
   useEffect(() => {
     if (clientId) dispatch(getAllDeals(clientId));

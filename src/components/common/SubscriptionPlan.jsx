@@ -11,6 +11,7 @@ const SubscriptionPlan = () => {
   const dispatch = useDispatch();
 
   const [billingPeriod, setBillingPeriod] = useState("monthly");
+
   const [planType, setPlanType] = useState("individual"); // 👈 added
 
   const subscriptionPlan = [
@@ -39,8 +40,8 @@ const SubscriptionPlan = () => {
     },
     {
       planName: "Standard Plan",
-      price: "£99",
-      period: "/ month",
+      price: billingPeriod === "monthly" ? "£39" : "£400",
+      period: billingPeriod === "monthly" ? "per month" : "per year",
       perfectUsage: "Perfect for small teams getting started",
       features: [
         { name: "1 Seller Account", demo: true, standard: true },

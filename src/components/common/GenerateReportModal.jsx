@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { generateAMLReport } from "../../store/features/report/service";
 
 const GenerateReportModal = ({ isOpen, onClose, client }) => {
-  console.log("🚀 ~ GenerateReportModal ~ client:", client)
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.amlReport);
 

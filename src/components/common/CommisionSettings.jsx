@@ -6,7 +6,7 @@ import { getClientCommissionSummary } from "../../store/features/commission/serv
 import { toast } from "sonner";
 
 const CommissionSettings = ({ clientId, commission }) => {
-  console.log("🚀 ~ CommissionSettings ~ commission:", commission);
+  
   const dispatch = useDispatch();
   const { commissionSetting: commissionState } = useSelector(
     (state) => state.client
@@ -14,7 +14,7 @@ const CommissionSettings = ({ clientId, commission }) => {
   const { summary, isLoading, isError, errorMessage } = useSelector(
     (state) => state.commission
   );
-  console.log("🚀 ~ CommissionSettings ~ summary:", summary);
+ 
 
   useEffect(() => {
     if (clientId) {

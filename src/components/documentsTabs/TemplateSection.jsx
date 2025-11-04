@@ -57,7 +57,7 @@ const TemplateSection = ({ singleTemplate, allClients }) => {
       if (res?.data) {
         setSubject(res.data.subject);
         setBody(res.data.body);
-        console.log("✅ Template filled successfully:", res.data);
+       
       }
     } catch (error) {
       console.error("❌ Failed to fill template:", error);

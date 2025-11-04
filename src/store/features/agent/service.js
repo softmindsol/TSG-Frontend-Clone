@@ -160,6 +160,36 @@ const updateProfile = createAsyncThunk(
     }
   }
 );
+const getTeam = createAsyncThunk(
+  "agent/getTeam",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`${config.agent.getTeam}`);
+
+      if (response.status === 200) {
+        const responseData = response.data.data;
+
+        if (responseData.success !== false) {
+          // Extract the team data from the nested structure
+          return {
+            teamSize: responseData.teamSize,
+            team: responseData.team,
+          };
+        }
+      }
+
+      throw new Error("Failed to fetch team members");
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Failed to fetch team members";
+
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
 
 export {
   registerAgent,
@@ -168,4 +198,5 @@ export {
   getCurrentAgent,
   changePassword,
   updateProfile,
+  getTeam,
 };

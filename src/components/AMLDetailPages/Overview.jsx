@@ -15,7 +15,7 @@ const Overview = ({ client }) => {
   const { verificationTimeline, loading } = useSelector(
     (state) => state.amlCompliance
   );
-  console.log("🚀 ~ Overview ~ verificationTimeline:", verificationTimeline);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Overview = ({ client }) => {
   }, [client?._id]);
   const getVerificationIcon = (action) => {
     const normalized = action.toLowerCase();
-    console.log("🚀 ~ getVerificationIcon ~ normalized:", normalized)
+    
 
     if (normalized.includes("document")) {
       // blue or purple for document-related actions

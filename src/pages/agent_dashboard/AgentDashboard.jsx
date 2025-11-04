@@ -47,9 +47,8 @@ const TotalCommissionIcon = () => (
 
 const AgentDashboard = () => {
   const { data } = useSelector(selectAllClients);
-  console.log("🚀 ~ AgentDashboard ~ data:", data);
+
   const totlaClients = data?.clients?.length;
-  console.log("🚀 ~ AgentDashboard ~ totlaClients:", totlaClients);
 
   const dispatch = useDispatch();
 
@@ -57,7 +56,7 @@ const AgentDashboard = () => {
   const { allSummary, isLoading, isError, errorMessage } = useSelector(
     (state) => state.commission
   );
-  console.log("🚀 ~ AgentDashboard ~ allSummary:", allSummary);
+ 
 
   // 🔹 Fetch data when component mounts
   useEffect(() => {

@@ -36,7 +36,7 @@ export const getJournals = createAsyncThunk(
       const response = await api.get(
         `${config.journal.getJournals}/${clientId}`
       );
-      console.log("🚀 ~ response:", response)
+     
 
       // Optional toast
       toast.success("Fetched journals successfully!");

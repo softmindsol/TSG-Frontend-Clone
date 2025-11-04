@@ -25,7 +25,7 @@ const AddExtraContactModal = ({ isOpen, onClose, onAddContact, clientId }) => {
   if (!isOpen) return null;
 
   const onSubmit = async (data) => {
-    console.log("data", data);
+   
     if (!clientId) {
       toast.error("Client ID is missing!");
       return;
@@ -39,7 +39,7 @@ const AddExtraContactModal = ({ isOpen, onClose, onAddContact, clientId }) => {
           : data.contactType,
     };
     try {
-      console.log("📤 Dispatching createExtraContact:", extraContactData);
+      
 
       const resultAction = await dispatch(
         createExtraContact({ clientId, extraContactData })

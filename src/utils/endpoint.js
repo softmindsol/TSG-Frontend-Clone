@@ -7,6 +7,7 @@ const config = {
     currentAgent: "agents/current",
     changePassword: "agents/change-password",
     updateProfile: "agents/update-profile",
+    getTeam: "agents/get-team",
   },
   client: {
     createClient: "clients/create-client",

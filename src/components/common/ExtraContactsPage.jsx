@@ -43,7 +43,7 @@ const EditInput = ({ label, value, type = "text", onChange }) => (
 );
 
 const ContactAccordionItem = ({ contact, onDelete, clientId }) => {
-  console.log("🚀 ~ ContactAccordionItem ~ contact:", contact);
+  
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

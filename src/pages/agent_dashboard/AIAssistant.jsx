@@ -19,11 +19,11 @@ import { toast } from "sonner";
 const AIAssistant = () => {
   const dispatch = useDispatch();
   const allClients = useSelector((state) => state.client.simpleClients);
-  console.log("🚀 ~ AIAssistant ~ allClients:", allClients);
+  
 
   const [inputMessage, setInputMessage] = useState("");
   const [selectedClient, setSelectedClient] = useState("");
-  console.log("🚀 ~ AIAssistant ~ selectedClient:", selectedClient);
+
   const clientOptions =
     allClients?.data?.clients?.map((client) => ({
       value: client._id,

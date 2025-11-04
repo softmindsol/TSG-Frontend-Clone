@@ -11,7 +11,7 @@ const SubscriptionBilling = () => {
   const { data, isLoading, isSuccess, errorMessage } = useSelector(
     (state) => state.agent.CurrentAgent
   );
-  console.log("🚀 ~ SubscriptionBilling ~ data:", data)
+
   const Details = [
     {
       title: "Current Plan",

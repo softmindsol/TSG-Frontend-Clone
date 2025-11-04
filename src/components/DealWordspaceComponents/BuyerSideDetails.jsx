@@ -43,8 +43,7 @@ const BuyerSideDetails = ({ singleDeal }) => {
 
   const onSubmit = async (data) => {
     const dealId = singleDeal?._id;
-    console.log("🚀 ~ onSubmit ~ dealId:", dealId);
-
+  
     if (!dealId) {
       console.error("❌ Deal ID not found, cannot update buyer details.");
       return;

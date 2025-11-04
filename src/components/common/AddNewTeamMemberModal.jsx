@@ -21,7 +21,7 @@ const AddNewTeamMemberModal = ({ isOpen, onClose, agentId, onSuccess }) => {
     companyName: "",
     operatingArea: "",
   });
-  console.log("🚀 ~ AddNewTeamMemberModal ~ values:", values);
+
 
   const [errors, setErrors] = useState({});
 

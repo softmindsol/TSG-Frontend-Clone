@@ -115,10 +115,10 @@ const AgentClients = () => {
       <p className="text-center text-gray-500 mt-8">Loading all clients...</p>
     );
 
-  if (allClientsError)
-    return (
-      <p className="text-center text-red-500 mt-8">Error: {allClientsError}</p>
-    );
+  // if (allClientsError)
+  //   return (
+  //     <p className="text-center text-red-500 mt-8">Error: {allClientsError}</p>
+  //   );
 
   return (
     <div className="mt-4 xl:mt-8">

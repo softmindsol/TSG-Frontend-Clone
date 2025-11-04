@@ -21,7 +21,7 @@ const DashboardHeader = ({ isMinimized, onMobileMenuClick }) => {
     (state) => state.agent.CurrentAgent
   );
   const agentName = data?.data?.firstName || "John";
-  console.log("🚀 ~ DashboardHeader ~ agentName:", agentName);
+  
 
   useEffect(() => {
     dispatch(getCurrentAgent());
