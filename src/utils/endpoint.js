@@ -6,6 +6,7 @@ const config = {
     agentLogin: "agents/login-agent",
     currentAgent: "agents/current",
     changePassword: "agents/change-password",
+    updateProfile: "agents/update-profile",
   },
   client: {
     createClient: "clients/create-client",
@@ -89,14 +90,13 @@ const config = {
     getTeamMembers: "member/get-all-member",
     deleteTeamMember: "member/delete-member",
   },
-  aiAssistant:{
+  aiAssistant: {
     startChatSession: "ai/start",
     messageAI: "ai/message",
     getChatHistory: "ai/history",
     getChatById: "ai/history", // we'll append /:id dynamically
     deleteChat: "ai", // we'll append /:sessionId dynamically
-  }
-
+  },
 };
 
 export default config;

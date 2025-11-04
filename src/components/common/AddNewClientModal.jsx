@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,17 +27,31 @@ import {
 
 const AddNewClientModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.client.createClient);
+
   const {
     register,
     handleSubmit,
     reset,
+    resetField,
     watch,
+    setValue,
     control,
+    unregister,
     formState: { errors },
   } = useForm();
+
   const [category, setCategory] = useState("");
 
-  const { isLoading } = useSelector((state) => state.client.createClient);
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "category") {
+        setValue("propertyType", "");
+        setValue("reasonForMove", "");
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setValue]);
 
   if (!isOpen) return null;
 

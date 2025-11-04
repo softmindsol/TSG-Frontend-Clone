@@ -181,6 +181,14 @@ const AIAssistant = () => {
                   }))}
                 />
               </div>
+              <div className="text-center">
+                <button
+                  onClick={() => setChatScreen(!chatScreen)}
+                  className="bg-[#ff725c] cursor-pointer w-fit text-white text-sm py-[6px] px-3 rounded-md mt-2"
+                >
+                  Previous Chat
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -190,37 +198,57 @@ const AIAssistant = () => {
             {/* Main Chat Area */}
             <div className="flex-1 h-[70vh] flex flex-col">
               {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                {messages?.map((message, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    {message.role === "assistant" ? (
-                      <>
-                        {/* User Avatar */}
-                        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
-                          TSG
+              <div className="flex-1 overflow-y-auto p-6 space-y-6 chat-scroll-container">
+                {messages && messages.length > 0 ? (
+                  <>
+                    {messages.map((message, index) => (
+                      <div key={index} className="flex items-start gap-4">
+                        {message.role === "user" ? (
+                          // 👤 User Message
+                          <>
+                            <div className="w-10 h-10 flex-shrink-0"></div>
+                            <div className="bg-[#081722] text-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl ml-auto">
+                              <p className="text-sm leading-relaxed">
+                                {message.content}
+                              </p>
+                            </div>
+                          </>
+                        ) : (
+                          // 🤖 AI Message
+                          <>
+                            <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                              TSG
+                            </div>
+                            <div className="bg-gray-200 rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl">
+                              <p className="text-gray-800 text-sm leading-relaxed">
+                                {message.content}
+                              </p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+
+                    {/* 💭 Typing Effect — appears after the last user message */}
+                    {aiTyping && (
+                      <div className="flex items-start gap-4 mt-2">
+                        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white text-sm font-medium">
+                          TSGs
                         </div>
-                        {/* User Message */}
-                        <div className="bg-gray-200 rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl">
-                          <p className="text-gray-800 text-sm leading-relaxed">
-                            {message.content}
-                          </p>
+                        <div className="bg-gray-200 rounded-2xl rounded-tl-sm px-4 py-3 max-w-xs flex items-center">
+                          <div className="flex gap-1">
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></span>
+                          </div>
                         </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-10 h-10 flex-shrink-0"></div>
-                        {/* AI Message */}
-                        <div className="bg-[#081722] text-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl ml-auto">
-                          <p className="text-sm leading-relaxed">
-                            {message.content}
-                          </p>
-                        </div>
-                      </>
+                      </div>
                     )}
+                  </>
+                ) : (
+                  <div className="text-center text-gray-500 italic mt-10">
+                    No messages found
                   </div>
-                ))}
-                {aiTyping && (
-                  <div className="text-gray-500 italic">AI is typing...</div>
                 )}
               </div>
             </div>
@@ -268,7 +296,7 @@ const AIAssistant = () => {
                     className={`p-4 border-b border-gray-100 hover:bg-gray-50 ${
                       activeSession?._id || activeSession === chat._id
                         ? "bg-gray-300"
-                        : ""
+                        : "bg-transparent"
                     }`}
                   >
                     <div className="flex justify-between items-start">
@@ -316,7 +344,7 @@ const AIAssistant = () => {
             </div>
             <SelectInput
               placeholder="Link Client"
-                value={selectedLabel} // 👈 show name
+              value={selectedLabel} // 👈 show name
               onChange={setSelectedClient} // ⬅️ no e.target.value
               options={
                 allClients?.data?.clients?.map((client) => ({

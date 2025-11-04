@@ -16,8 +16,8 @@ const DetailItem = ({
   const formatDateForDisplay = (dateValue) => {
     if (!dateValue) return "-";
     const date = new Date(dateValue);
-    if (isNaN(date.getTime())) return dateValue; 
-    return date.toLocaleDateString("en-GB"); 
+    if (isNaN(date.getTime())) return dateValue;
+    return date.toLocaleDateString("en-GB");
   };
 
   // Helper: format date for input[type=date]
@@ -25,7 +25,7 @@ const DetailItem = ({
     if (!dateValue) return "";
     const date = new Date(dateValue);
     if (isNaN(date.getTime())) return dateValue;
-    return date.toISOString().split("T")[0]; 
+    return date.toISOString().split("T")[0];
   };
 
   return (

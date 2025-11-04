@@ -83,10 +83,8 @@ const AddNewDealModal = ({ isOpen, onClose }) => {
                     id="dealType"
                     placeholder="Select Type"
                     options={[
-                      { value: "Buyer Rep", label: "Buyer Rep" },
-                      { value: "Seller Rep", label: "Seller Rep" },
-                      { value: "Development", label: "Development" },
-                      { value: "Investment", label: "Investment" },
+                      { value: "Residential", label: "Residential" },
+                      { value: "Commercial", label: "Commercial" },
                     ]}
                     value={field.value}
                     onChange={(val) => field.onChange(val)} // ✅ correctly binds

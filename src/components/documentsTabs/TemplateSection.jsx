@@ -41,10 +41,10 @@ const TemplateSection = ({ singleTemplate, allClients }) => {
 
   // ✅ Fill Template Data API call
   const handleSave = async () => {
-    if (!selectedDeal) {
-      alert("Please select a deal first!");
-      return;
-    }
+    // if (!selectedDeal) {
+    //   alert("Please select a deal first!");
+    //   return;
+    // }
 
     try {
       const res = await dispatch(
@@ -117,7 +117,7 @@ const TemplateSection = ({ singleTemplate, allClients }) => {
               </option>
               {Array.isArray(deals) &&
                 deals.map((deal) => (
-                  <option key={deal._id} value={deal._id}>
+                  <option key={deal._id} label={deal.dealName} value={deal._id}>
                     {deal.dealName || deal.title || `Deal ${deal._id}`}
                   </option>
                 ))}

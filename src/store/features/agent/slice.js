@@ -5,6 +5,7 @@ import {
   registerAgent,
   getCurrentAgent,
   changePassword,
+  updateProfile,
 } from "./service"; // 👈 thunk import
 
 // 🧩 Initial State
@@ -28,6 +29,12 @@ const initialState = {
     errorMessage: "",
   },
   ChangePassword: {
+    data: null,
+    isLoading: false,
+    isSuccess: false,
+    errorMessage: "",
+  },
+  UpdateProfile: {
     data: null,
     isLoading: false,
     isSuccess: false,
@@ -139,6 +146,24 @@ export const agentSlice = createSlice({
         state.ChangePassword.isLoading = false;
         state.ChangePassword.isSuccess = false;
         state.ChangePassword.errorMessage = action.payload;
+      });
+
+    // Update Profile
+    builder
+      .addCase(updateProfile.pending, (state) => {
+        state.UpdateProfile.isLoading = true;
+        state.UpdateProfile.isSuccess = false;
+        state.UpdateProfile.errorMessage = "";
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.UpdateProfile.isLoading = false;
+        state.UpdateProfile.isSuccess = true;
+        state.UpdateProfile.data = action.payload;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.UpdateProfile.isLoading = false;
+        state.UpdateProfile.isSuccess = false;
+        state.UpdateProfile.errorMessage = action.payload;
       });
   },
 });

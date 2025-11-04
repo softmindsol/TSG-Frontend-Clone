@@ -136,10 +136,36 @@ const changePassword = createAsyncThunk(
   }
 );
 
+const updateProfile = createAsyncThunk(
+  "agent/updateProfile",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.put(
+        `${config.agent.updateProfile}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      toast.success(response.data?.message || "Profile updated successfully");
+      return response.data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Failed to update profile";
+      toast.error(message);
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export {
   registerAgent,
   loginAgent,
   logoutAgent,
   getCurrentAgent,
   changePassword,
+  updateProfile,
 };
